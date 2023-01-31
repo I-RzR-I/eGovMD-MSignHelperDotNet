@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="https://msign.gov.md" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" name="MSignService" targetNamespace="https://msign.gov.md">
+  <wsdl:types>
+    <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://msign.gov.md">
+      <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/"/>
+      <xs:element name="PostSignRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="request" nillable="true" type="tns:SignRequest"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="SignRequest">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="ContentDescription" nillable="true" type="xs:string">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="ContentType" type="tns:ContentType"/>
+          <xs:element name="Contents" nillable="true" type="tns:ArrayOfSignContent"/>
+          <xs:element minOccurs="0" name="ExpectedSigner" nillable="true" type="tns:ExpectedSigner">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="ShortContentDescription" nillable="true" type="xs:string"/>
+          <xs:element minOccurs="0" name="SignatureReason" nillable="true" type="xs:string">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="SignRequest" nillable="true" type="tns:SignRequest"/>
+      <xs:simpleType name="ContentType">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Hash">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="Pdf">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">2</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="ContentType" nillable="true" type="tns:ContentType"/>
+      <xs:complexType name="ArrayOfSignContent">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="SignContent" nillable="true" type="tns:SignContent"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="ArrayOfSignContent" nillable="true" type="tns:ArrayOfSignContent"/>
+      <xs:complexType name="SignContent">
+        <xs:sequence>
+          <xs:element name="Content" nillable="true" type="xs:base64Binary"/>
+          <xs:element minOccurs="0" name="CorrelationID" nillable="true" type="xs:string">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="MultipleSignatures" type="xs:boolean">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="SignContent" nillable="true" type="tns:SignContent"/>
+      <xs:complexType name="ExpectedSigner">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="DelegatedRoleID" type="xs:int">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="DelegatorID" nillable="true" type="xs:string">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="DelegatorType" type="tns:DelegatorType">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="ID" nillable="true" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="ExpectedSigner" nillable="true" type="tns:ExpectedSigner"/>
+      <xs:simpleType name="DelegatorType">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="None"/>
+          <xs:enumeration value="Person"/>
+          <xs:enumeration value="Organization"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="DelegatorType" nillable="true" type="tns:DelegatorType"/>
+      <xs:element name="PostSignRequestResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="PostSignRequestResult" nillable="true" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetSignResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="requestID" nillable="true" type="xs:string"/>
+            <xs:element minOccurs="0" name="language" nillable="true" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetSignResponseResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="GetSignResponseResult" nillable="true" type="tns:SignResponse"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="SignResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string"/>
+          <xs:element name="Results" nillable="true" type="tns:ArrayOfSignResult"/>
+          <xs:element name="Status" type="tns:SignStatus"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="SignResponse" nillable="true" type="tns:SignResponse"/>
+      <xs:complexType name="ArrayOfSignResult">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="SignResult" nillable="true" type="tns:SignResult"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="ArrayOfSignResult" nillable="true" type="tns:ArrayOfSignResult"/>
+      <xs:complexType name="SignResult">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Certificate" nillable="true" type="xs:base64Binary">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="CorrelationID" nillable="true" type="xs:string">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="Signature" nillable="true" type="xs:base64Binary">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="SignResult" nillable="true" type="tns:SignResult"/>
+      <xs:simpleType name="SignStatus">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Pending"/>
+          <xs:enumeration value="Success"/>
+          <xs:enumeration value="Failure"/>
+          <xs:enumeration value="Expired"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="SignStatus" nillable="true" type="tns:SignStatus"/>
+      <xs:element name="VerifySignatures">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="request" nillable="true" type="tns:VerificationRequest"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="VerificationRequest">
+        <xs:sequence>
+          <xs:element name="Contents" nillable="true" type="tns:ArrayOfVerificationContent"/>
+          <xs:element minOccurs="0" name="Language" nillable="true" type="xs:string">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="SignedContentType" type="tns:ContentType"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="VerificationRequest" nillable="true" type="tns:VerificationRequest"/>
+      <xs:complexType name="ArrayOfVerificationContent">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="VerificationContent" nillable="true" type="tns:VerificationContent"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="ArrayOfVerificationContent" nillable="true" type="tns:ArrayOfVerificationContent"/>
+      <xs:complexType name="VerificationContent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Content" nillable="true" type="xs:base64Binary">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="CorrelationID" nillable="true" type="xs:string">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="Signature" nillable="true" type="xs:base64Binary"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="VerificationContent" nillable="true" type="tns:VerificationContent"/>
+      <xs:element name="VerifySignaturesResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="VerifySignaturesResult" nillable="true" type="tns:VerificationResponse"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="VerificationResponse">
+        <xs:sequence>
+          <xs:element name="Results" nillable="true" type="tns:ArrayOfVerificationResult"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="VerificationResponse" nillable="true" type="tns:VerificationResponse"/>
+      <xs:complexType name="ArrayOfVerificationResult">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="VerificationResult" nillable="true" type="tns:VerificationResult"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="ArrayOfVerificationResult" nillable="true" type="tns:ArrayOfVerificationResult"/>
+      <xs:complexType name="VerificationResult">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Certificates" nillable="true" type="tns:ArrayOfVerificationCertificate">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="CorrelationID" nillable="true" type="xs:string">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="Message" nillable="true" type="xs:string"/>
+          <xs:element name="SignaturesValid" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="VerificationResult" nillable="true" type="tns:VerificationResult"/>
+      <xs:complexType name="ArrayOfVerificationCertificate">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="VerificationCertificate" nillable="true" type="tns:VerificationCertificate"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="ArrayOfVerificationCertificate" nillable="true" type="tns:ArrayOfVerificationCertificate"/>
+      <xs:complexType name="VerificationCertificate">
+        <xs:sequence>
+          <xs:element name="Certificate" nillable="true" type="xs:base64Binary"/>
+          <xs:element name="SignatureValid" type="xs:boolean"/>
+          <xs:element minOccurs="0" name="SignedAt" nillable="true" type="xs:dateTime">
+            <xs:annotation>
+              <xs:appinfo>
+                <DefaultValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/" EmitDefaultValue="false"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="Subject" nillable="true" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="VerificationCertificate" nillable="true" type="tns:VerificationCertificate"/>
+    </xs:schema>
+    <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.microsoft.com/2003/10/Serialization/" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/2003/10/Serialization/">
+      <xs:element name="anyType" nillable="true" type="xs:anyType"/>
+      <xs:element name="anyURI" nillable="true" type="xs:anyURI"/>
+      <xs:element name="base64Binary" nillable="true" type="xs:base64Binary"/>
+      <xs:element name="boolean" nillable="true" type="xs:boolean"/>
+      <xs:element name="byte" nillable="true" type="xs:byte"/>
+      <xs:element name="dateTime" nillable="true" type="xs:dateTime"/>
+      <xs:element name="decimal" nillable="true" type="xs:decimal"/>
+      <xs:element name="double" nillable="true" type="xs:double"/>
+      <xs:element name="float" nillable="true" type="xs:float"/>
+      <xs:element name="int" nillable="true" type="xs:int"/>
+      <xs:element name="long" nillable="true" type="xs:long"/>
+      <xs:element name="QName" nillable="true" type="xs:QName"/>
+      <xs:element name="short" nillable="true" type="xs:short"/>
+      <xs:element name="string" nillable="true" type="xs:string"/>
+      <xs:element name="unsignedByte" nillable="true" type="xs:unsignedByte"/>
+      <xs:element name="unsignedInt" nillable="true" type="xs:unsignedInt"/>
+      <xs:element name="unsignedLong" nillable="true" type="xs:unsignedLong"/>
+      <xs:element name="unsignedShort" nillable="true" type="xs:unsignedShort"/>
+      <xs:element name="char" nillable="true" type="tns:char"/>
+      <xs:simpleType name="char">
+        <xs:restriction base="xs:int"/>
+      </xs:simpleType>
+      <xs:element name="duration" nillable="true" type="tns:duration"/>
+      <xs:simpleType name="duration">
+        <xs:restriction base="xs:duration">
+          <xs:pattern value="\-?P(\d*D)?(T(\d*H)?(\d*M)?(\d*(\.\d*)?S)?)?"/>
+          <xs:minInclusive value="-P10675199DT2H48M5.4775808S"/>
+          <xs:maxInclusive value="P10675199DT2H48M5.4775807S"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="guid" nillable="true" type="tns:guid"/>
+      <xs:simpleType name="guid">
+        <xs:restriction base="xs:string">
+          <xs:pattern value="[\da-fA-F]{8}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{12}"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:attribute name="FactoryType" type="xs:QName"/>
+      <xs:attribute name="Id" type="xs:ID"/>
+      <xs:attribute name="Ref" type="xs:IDREF"/>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="IMSign_PostSignRequest_InputMessage">
+    <wsdl:part name="parameters" element="tns:PostSignRequest"/>
+  </wsdl:message>
+  <wsdl:message name="IMSign_PostSignRequest_OutputMessage">
+    <wsdl:part name="parameters" element="tns:PostSignRequestResponse"/>
+  </wsdl:message>
+  <wsdl:message name="IMSign_GetSignResponse_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetSignResponse"/>
+  </wsdl:message>
+  <wsdl:message name="IMSign_GetSignResponse_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetSignResponseResponse"/>
+  </wsdl:message>
+  <wsdl:message name="IMSign_VerifySignatures_InputMessage">
+    <wsdl:part name="parameters" element="tns:VerifySignatures"/>
+  </wsdl:message>
+  <wsdl:message name="IMSign_VerifySignatures_OutputMessage">
+    <wsdl:part name="parameters" element="tns:VerifySignaturesResponse"/>
+  </wsdl:message>
+  <wsdl:portType name="IMSign">
+    <wsdl:operation name="PostSignRequest">
+      <wsdl:input wsaw:Action="https://msign.gov.md/IMSign/PostSignRequest" message="tns:IMSign_PostSignRequest_InputMessage"/>
+      <wsdl:output wsaw:Action="https://msign.gov.md/IMSign/PostSignRequestResponse" message="tns:IMSign_PostSignRequest_OutputMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetSignResponse">
+      <wsdl:input wsaw:Action="https://msign.gov.md/IMSign/GetSignResponse" message="tns:IMSign_GetSignResponse_InputMessage"/>
+      <wsdl:output wsaw:Action="https://msign.gov.md/IMSign/GetSignResponseResponse" message="tns:IMSign_GetSignResponse_OutputMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="VerifySignatures">
+      <wsdl:input wsaw:Action="https://msign.gov.md/IMSign/VerifySignatures" message="tns:IMSign_VerifySignatures_InputMessage"/>
+      <wsdl:output wsaw:Action="https://msign.gov.md/IMSign/VerifySignaturesResponse" message="tns:IMSign_VerifySignatures_OutputMessage"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IMSign" type="tns:IMSign">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="PostSignRequest">
+      <soap:operation soapAction="https://msign.gov.md/IMSign/PostSignRequest" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSignResponse">
+      <soap:operation soapAction="https://msign.gov.md/IMSign/GetSignResponse" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VerifySignatures">
+      <soap:operation soapAction="https://msign.gov.md/IMSign/VerifySignatures" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="MSignService">
+    <wsdl:port name="BasicHttpBinding_IMSign" binding="tns:BasicHttpBinding_IMSign">
+      <soap:address location="https://msign.staging.egov.md:8443/MSign.svc"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

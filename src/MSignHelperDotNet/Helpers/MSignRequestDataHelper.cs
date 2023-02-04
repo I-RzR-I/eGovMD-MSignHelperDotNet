@@ -20,7 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AggregatedGenericResultMessage;
-using AggregatedGenericResultMessage.Extensions.Messages;
+using AggregatedGenericResultMessage.Extensions.Result.Messages;
 using DomainCommonExtensions.DataTypeExtensions;
 using MSignHelperDotNet.Models.InputRequests.Internal;
 using MSignHelperDotNet.Models.Result.Internal;

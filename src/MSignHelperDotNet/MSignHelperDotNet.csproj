@@ -52,7 +52,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AggregatedGenericResultMessage" Version="1.0.6.1706" />
+    <PackageReference Include="AggregatedGenericResultMessage" Version="1.1.0" />
     <PackageReference Include="DomainCommonExtensions" Version="1.0.5.1849" />
     <PackageReference Include="EntityMaxLengthTrim" Version="1.0.3.1800" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />

@@ -23,7 +23,7 @@ using System.ServiceModel;
 using System.Threading.Tasks;
 using AggregatedGenericResultMessage;
 using AggregatedGenericResultMessage.Abstractions;
-using AggregatedGenericResultMessage.Extensions.Messages;
+using AggregatedGenericResultMessage.Extensions.Result.Messages;
 using DomainCommonExtensions.CommonExtensions;
 using DomainCommonExtensions.DataTypeExtensions;
 using MSignHelperDotNet.Abstractions;

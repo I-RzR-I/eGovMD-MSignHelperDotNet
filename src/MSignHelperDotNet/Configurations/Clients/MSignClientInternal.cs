@@ -21,7 +21,7 @@ using System.Diagnostics;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 using AggregatedGenericResultMessage;
-using AggregatedGenericResultMessage.Extensions.Messages;
+using AggregatedGenericResultMessage.Extensions.Result.Messages;
 using DomainCommonExtensions.CommonExtensions;
 using MSignRemoteService;
 

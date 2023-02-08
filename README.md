@@ -1,5 +1,8 @@
 > **Note** This repository is developed using .net framework 4.5, .netstandard2.0, .netstandard2.1
 
+[![NuGet Version](https://img.shields.io/nuget/v/MSignHelperDotNet.svg?style=flat&logo=nuget)](https://www.nuget.org/packages/MSignHelperDotNet/)
+[![Nuget Downloads](https://img.shields.io/nuget/dt/MSignHelperDotNet.svg?style=flat&logo=nuget)](https://www.nuget.org/packages/MSignHelperDotNet)
+
 One important reason for developing this repository is to quickly implement the governmental signing service provided by [e-governance agency](https://egov.md/), named `MSign`, available in the Republic of Moldova.<br/>
 
 [![MSign service](assets/msign.png)](https://msign.gov.md)
@@ -24,8 +27,6 @@ For more information about that, follow the info from using doc.
 
 
 > `Install-Package MSignHelperDotNet -Version x.x.x.x`
-
-[![NuGet Version](https://img.shields.io/nuget/v/MSignHelperDotNet.svg?style=flat)](https://www.nuget.org/packages/MSignHelperDotNet/)
 
 ## Content
 1. [USING](docs/usage.md)

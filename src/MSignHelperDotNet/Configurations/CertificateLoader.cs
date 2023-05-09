@@ -57,10 +57,9 @@ namespace MSignHelperDotNet.Configurations
             if (File.Exists(certificatePath))
                 return new X509Certificate2(certificatePath);
 
-            if (!Directory.Exists(certificatePath))
-                return null;
-
-            return LoadPublicCertificateFromChain(Path.Combine(certificatePath, "tls.crt"));
+            return !Directory.Exists(certificatePath) 
+                ? null
+                : LoadPublicCertificateFromChain(Path.Combine(certificatePath, "tls.crt"));
         }
 
         /// <summary>

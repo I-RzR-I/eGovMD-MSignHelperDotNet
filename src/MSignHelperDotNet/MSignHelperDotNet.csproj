@@ -52,8 +52,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AggregatedGenericResultMessage" Version="1.1.1.2048" />
-    <PackageReference Include="DomainCommonExtensions" Version="1.0.5.2131" />
+    <PackageReference Include="AggregatedGenericResultMessage" Version="1.2.0" />
+    <PackageReference Include="DomainCommonExtensions" Version="1.0.7.535" />
     <PackageReference Include="EntityMaxLengthTrim" Version="1.0.4.1827" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
     <PackageReference Include="System.Runtime" Version="4.3.1" />

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <!--<TargetFramework>netstandard2.0</TargetFramework>-->
     <TargetFrameworks>net45;netstandard2.0;netstandard2.1</TargetFrameworks>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <Authors>RzR</Authors>
@@ -52,9 +52,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AggregatedGenericResultMessage" Version="1.2.0" />
-    <PackageReference Include="DomainCommonExtensions" Version="1.0.7.535" />
-    <PackageReference Include="EntityMaxLengthTrim" Version="1.0.4.1827" />
+    <PackageReference Include="AggregatedGenericResultMessage" Version="1.3.4.6865" />
+    <PackageReference Include="DomainCommonExtensions" Version="1.3.0" />
+    <PackageReference Include="EntityMaxLengthTrim" Version="1.0.10.3531" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
     <PackageReference Include="System.Runtime" Version="4.3.1" />
     <PackageReference Include="System.ServiceModel.Duplex" Version="4.10.0" />
@@ -88,7 +88,7 @@
       <UserProperties BuildVersion_StartDate="2022/10/30" />
     </VisualStudio>
   </ProjectExtensions>
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+  <!--<Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="PowerShell -NoProfile -ExecutionPolicy unrestricted -file $(SolutionDir)../build/pack.ps1 $(ConfigurationName)" />
-  </Target>
+  </Target>-->
 </Project>

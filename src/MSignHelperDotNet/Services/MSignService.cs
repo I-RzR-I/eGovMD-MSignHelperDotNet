@@ -513,9 +513,7 @@ namespace MSignHelperDotNet.Services
                 htmlPage = htmlPage.Replace("{#MSISDN#}", request.PhoneNumber);
                 htmlPage = htmlPage.Replace("{#RelayState#}", request.CustomRelayState.IfNullOrWhiteSpace(request.ReturnUrl.Base64Encode()));
                 htmlPage = htmlPage.Replace("{#lang#}", appLanguage?.ToLower());
-                
-                if(request.Instrument.IsPresent())
-                    htmlPage = htmlPage.Replace("{#Instrument#}", request.Instrument.IfNullThenEmpty());
+                htmlPage = htmlPage.Replace("{#Instrument#}", request.Instrument.IfNullThenEmpty());
 
                 return Result<BuildSignRedirectPageResultModel>
                     .Success(new BuildSignRedirectPageResultModel

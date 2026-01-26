@@ -116,5 +116,54 @@ namespace MSignHelperDotNet.Models.InputRequests.SignUnSignDocument
         /// <value></value>
         /// <remarks></remarks>
         public ReceiveResponseType ReceiveResponseFrom { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the signing instrument.
+        /// </summary>
+        /// <remarks>
+        ///     This parameter is not required. <br />
+        ///     Available values:
+        ///     <list type="bullet">
+        ///          <item>
+        ///              <description>mobile</description>
+        ///          </item>
+        ///          <item>
+        ///              <description>moldsign</description>
+        ///          </item>
+        ///          <item>
+        ///              <description>nationalid</description>
+        ///          </item>
+        ///          <item>
+        ///              <description>securesign</description>
+        ///          </item>
+        ///          <item>
+        ///              <description>tax</description>
+        ///          </item>
+        ///     </list>
+        /// </remarks>
+        /// <value>
+        ///     The signing instrument.
+        /// </value>
+        public string Instrument { get; set; }
+
+        /// <summary>
+        ///     Gets or sets a value indicating whether the request identifier as URL path parameter
+        ///     should be set.
+        /// </summary>
+        /// <remarks>
+        ///     If is 'true', then the result will be: 'ReturnUrl=url/requestId'; otherwise 'ReturnUrl=url?id=requestId'
+        /// </remarks>
+        /// <value>
+        ///     True if set request identifier as URL path parameter, false if not.
+        /// </value>
+        public bool SetRequestIdAsUrlPathParam { get; set; } = false;
+
+        /// <summary>
+        ///     Gets or sets the state of the custom relay.
+        /// </summary>
+        /// <value>
+        ///     The custom relay state.
+        /// </value>
+        public string CustomRelayState { get; set; }
     }
 }

@@ -302,7 +302,10 @@ namespace MSignHelperDotNet.Services
                     PhoneNumber = signRequest.PhoneNumber,
                     ReturnUrl = signRequest.ReturnUrl,
                     RequestId = requestId,
-                    ReceiveResponseFrom = signRequest.ReceiveResponseFrom
+                    ReceiveResponseFrom = signRequest.ReceiveResponseFrom,
+                    CustomRelayState = signRequest.CustomRelayState,
+                    Instrument = signRequest.Instrument,
+                    SetRequestIdAsUrlPathParam = signRequest.SetRequestIdAsUrlPathParam
                 }, appLanguage);
 
                 if (!redirectResult.IsSuccess)

@@ -1,3 +1,7 @@
+### **v1.2.2.7907** [[RzR](mailto:108324929+I-RzR-I@users.noreply.github.com)] 26-01-2026
+* [7353553] (RzR) -> Auto commit uncommited files
+* [097bb96] (RzR) -> Fix replace `Instrument` in post form.
+
 ### **v1.2.1.7268** [[RzR](mailto:108324929+I-RzR-I@users.noreply.github.com)] 26-01-2026
 * [33b098b] (RzR) -> Auto commit uncommited files
 * [221d78f] (RzR) -> Fixed forgotten modifications.

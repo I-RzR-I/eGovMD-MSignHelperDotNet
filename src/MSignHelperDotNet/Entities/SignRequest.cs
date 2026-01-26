@@ -20,16 +20,17 @@ using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using EntityMaxLengthTrim.Attributes;
+using EntityMaxLengthTrim.Enums;
 using EntityMaxLengthTrim.Interceptors;
 using MSignHelperDotNet.Constants;
 using MSignHelperDotNet.Enums;
-// ReSharper disable UnusedAutoPropertyAccessor.Global
 
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable RedundantArgumentDefaultValue
 // ReSharper disable ClassWithVirtualMembersNeverInherited.Global
+// ReSharper disable ClassNeverInstantiated.Global
 
 #endregion
-
-// ReSharper disable ClassNeverInstantiated.Global
 
 namespace MSignHelperDotNet.Entities
 {
@@ -212,7 +213,7 @@ namespace MSignHelperDotNet.Entities
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            StringInterceptor.ApplyStringMaxAllowedLength(this, propertyName);
+            StringInterceptor.ApplyStringMaxAllowedLength(this, propertyName, false, StringTruncateType.AtTheEndOf);
         }
     }
 }

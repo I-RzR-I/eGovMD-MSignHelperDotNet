@@ -1,3 +1,7 @@
+### **v1.2.0.7160** [[RzR](mailto:108324929+I-RzR-I@users.noreply.github.com)] 26-01-2026
+* [01a073b] (RzR) -> Auto commit uncommited files
+* [102ac67] (RzR) -> Add additional parameters `Instrument`, `CustomRelayState`.
+
 ### **v1.1.0.4604** [[RzR](mailto:108324929+I-RzR-I@users.noreply.github.com)] 26-01-2026
 * [9ed29b4] (RzR) -> Adjust files info
 * [0ea4a20] (RzR) -> Auto commit uncommited files

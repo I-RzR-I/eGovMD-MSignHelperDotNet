@@ -488,13 +488,19 @@ namespace MSignHelperDotNet.Services
             try
             {
                 if (request.ReceiveResponseFrom == ReceiveResponseType.GET)
+                {
+                    var redirectUrl = request.SetRequestIdAsUrlPathParam.IsTrue()
+                        ? $"{_mSignOptions.RemoteRedirectAddress}/{request.RequestId}?ReturnUrl={request.ReturnUrl}/{request.RequestId}"
+                        : $"{_mSignOptions.RemoteRedirectAddress}/{request.RequestId}?ReturnUrl={request.ReturnUrl}?id={request.RequestId}";
+
                     return Result<BuildSignRedirectPageResultModel>
                         .Success(new BuildSignRedirectPageResultModel
                         {
-                            RedirectUrl =
-                                $"{_mSignOptions.RemoteRedirectAddress}/{request.RequestId}?ReturnUrl={request.ReturnUrl}?id={request.RequestId}",
+                            RedirectUrl = redirectUrl,
                             CleanRedirectUrl = $"{_mSignOptions.RemoteRedirectAddress}/{request.RequestId}"
                         });
+                }
+
 
                 var htmlPage = RemoteMSignConstants.MSignHtmlRedirect;
                 var postFormUrl = $"{_mSignOptions.RemoteRedirectAddress}/{request.RequestId}";
@@ -502,8 +508,11 @@ namespace MSignHelperDotNet.Services
                 htmlPage = htmlPage.Replace("{#PostFormUrl#}", postFormUrl);
                 htmlPage = htmlPage.Replace("{#ReturnUrl#}", request.ReturnUrl);
                 htmlPage = htmlPage.Replace("{#MSISDN#}", request.PhoneNumber);
-                htmlPage = htmlPage.Replace("{#RelayState#}", request.ReturnUrl.Base64Encode());
+                htmlPage = htmlPage.Replace("{#RelayState#}", request.CustomRelayState.IfNullOrWhiteSpace(request.ReturnUrl.Base64Encode()));
                 htmlPage = htmlPage.Replace("{#lang#}", appLanguage?.ToLower());
+                
+                if(request.Instrument.IsPresent())
+                    htmlPage = htmlPage.Replace("{#Instrument#}", request.Instrument.IfNullThenEmpty());
 
                 return Result<BuildSignRedirectPageResultModel>
                     .Success(new BuildSignRedirectPageResultModel

@@ -44,6 +44,7 @@ namespace MSignHelperDotNet.Constants
                                         <input type='hidden' name='MSISDN' value='{#MSISDN#}' />
                                         <input type='hidden' name='RelayState' value='{#RelayState#}' />
                                         <input type='hidden' name='lang' value='{#lang#}' />
+                                        <input type='hidden' name='Instrument' value='{#Instrument#}' />
                                         <p>redirecting to MSign...</p>
                                         <noscript>
                                             <p>

@@ -1,3 +1,7 @@
+### **v1.2.3.186** [[RzR](mailto:108324929+I-RzR-I@users.noreply.github.com)] 25-02-2026
+* [d5b86ec] (RzR) -> Auto commit uncommited files
+* [6fc971d] (RzR) -> Upgrade reference package version (fixed version)
+
 ### **v1.2.2.7907** [[RzR](mailto:108324929+I-RzR-I@users.noreply.github.com)] 26-01-2026
 * [7353553] (RzR) -> Auto commit uncommited files
 * [097bb96] (RzR) -> Fix replace `Instrument` in post form.

@@ -19,7 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.Web.UI;
-using DomainCommonExtensions.DataTypeExtensions;
+using RzR.Extensions.Domain.Text;
 using MSignHelperDotNet.Enums;
 using MSignHelperDotNet.Models.InputRequests.SignUnSignDocument;
 using MSignHelperDotNet.Services;

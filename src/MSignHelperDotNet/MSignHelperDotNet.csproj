@@ -52,9 +52,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AggregatedGenericResultMessage" Version="1.4.1.8497" />
-    <PackageReference Include="DomainCommonExtensions" Version="4.5.0.7408" />
-    <PackageReference Include="EntityMaxLengthTrim" Version="1.3.2.5621" />
+    <PackageReference Include="RzR.ResultMessage" Version="4.0.0" />
+    <PackageReference Include="RzR.Extensions.Domain" Version="7.1.0.5494" />
+    <PackageReference Include="RzR.Extensions.EntityLength" Version="3.0.0.7529" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
     <PackageReference Include="System.Runtime" Version="4.3.1" />
     <PackageReference Include="System.ServiceModel.Duplex" Version="4.10.0" />

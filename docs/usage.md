@@ -154,7 +154,7 @@ From the box, after sending the signing request as result, you will receive a pr
 
 In dependence on what you need, you can extend with your own properties, then create a map for your DB entity. 
 
-For returned object model is set length restriction for some string properties like: '*SignDocId*', '*SignDocNumber*', '*RequestId*', '*CorrelationId*', '*CreatedIp*', '*ModifiedIp*' and in the case when the length is exceeded, the value will be truncated(using `EntityMaxLengthTrim` and `INotifyPropertyChanged`) at the maximum allowed length (set in the '*MSignHelperDotNet.Constants.SignRequests*').
+For returned object model is set length restriction for some string properties like: '*SignDocId*', '*SignDocNumber*', '*RequestId*', '*CorrelationId*', '*CreatedIp*', '*ModifiedIp*' and in the case when the length is exceeded, the value will be truncated(using `RzR.Extensions.EntityLength` and `INotifyPropertyChanged`) at the maximum allowed length (set in the '*MSignHelperDotNet.Constants.SignRequests*').
 
 In addition at clean implementation in the input parameters of sign requests is added:
 * `ReceiveResponseFrom` - allow generating how the user will be redirected to the signing site with the allowed value `GET` and `POST`;

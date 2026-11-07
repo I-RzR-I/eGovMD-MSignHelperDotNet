@@ -19,9 +19,9 @@
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using EntityMaxLengthTrim.Attributes;
-using EntityMaxLengthTrim.Enums;
-using EntityMaxLengthTrim.Interceptors;
+using RzR.Extensions.EntityLength.Attributes;
+using RzR.Extensions.EntityLength.Enums;
+using RzR.Extensions.EntityLength.Interceptors;
 using MSignHelperDotNet.Constants;
 using MSignHelperDotNet.Enums;
 

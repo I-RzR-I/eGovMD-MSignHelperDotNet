@@ -22,11 +22,11 @@ using System.IO;
 #if NETSTANDARD2_1_OR_GREATER || NET
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
-using DomainCommonExtensions.CommonExtensions;
 #endif
 
 using System.Security.Cryptography.X509Certificates;
-using DomainCommonExtensions.DataTypeExtensions;
+using RzR.Extensions.Domain.Primitives;
+using RzR.Extensions.Domain.Text;
 // ReSharper disable IdentifierTypo
 // ReSharper disable ExpressionIsAlwaysNull
 // ReSharper disable JoinDeclarationAndInitializer

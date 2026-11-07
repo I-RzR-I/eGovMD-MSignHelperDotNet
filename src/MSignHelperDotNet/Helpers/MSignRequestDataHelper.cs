@@ -19,9 +19,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using AggregatedGenericResultMessage;
-using AggregatedGenericResultMessage.Extensions.Result.Messages;
-using DomainCommonExtensions.DataTypeExtensions;
+using RzR.ResultMessage;
+using RzR.ResultMessage.Extensions.Result.Messages;
+using RzR.Extensions.Domain.Primitives;
+using RzR.Extensions.Domain.Text;
 using MSignHelperDotNet.Models.InputRequests.Internal;
 using MSignHelperDotNet.Models.Result.Internal;
 using MSignRemoteService;

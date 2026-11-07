@@ -20,9 +20,9 @@ using System;
 using System.Diagnostics;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
-using AggregatedGenericResultMessage;
-using AggregatedGenericResultMessage.Extensions.Result.Messages;
-using DomainCommonExtensions.CommonExtensions;
+using RzR.ResultMessage;
+using RzR.ResultMessage.Extensions.Result.Messages;
+using RzR.Extensions.Domain.Primitives;
 using MSignRemoteService;
 
 #if NETSTANDARD2_0_OR_GREATER || NET

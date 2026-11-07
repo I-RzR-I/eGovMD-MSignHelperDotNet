@@ -18,7 +18,7 @@
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using AggregatedGenericResultMessage.Abstractions;
+using RzR.ResultMessage.Abstractions;
 using MSignHelperDotNet.Entities;
 using MSignHelperDotNet.Models.InputRequests.SignUnSignDocument;
 using MSignHelperDotNet.Models.InputRequests.VerifyDocumentSignature;

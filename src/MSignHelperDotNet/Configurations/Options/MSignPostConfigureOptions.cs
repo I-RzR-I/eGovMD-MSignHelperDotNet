@@ -21,7 +21,7 @@
 using System;
 using System.Security.Cryptography.X509Certificates;
 using System.ServiceModel;
-using DomainCommonExtensions.DataTypeExtensions;
+using RzR.Extensions.Domain.Primitives;
 using Microsoft.Extensions.Options;
 using MSignHelperDotNet.Models;
 

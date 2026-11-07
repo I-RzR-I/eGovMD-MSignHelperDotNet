@@ -43,14 +43,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AggregatedGenericResultMessage">
-      <HintPath>..\..\MSignHelperDotNet\bin\Debug\net45\AggregatedGenericResultMessage.dll</HintPath>
+    <Reference Include="RzR.ResultMessage">
+      <HintPath>..\..\MSignHelperDotNet\bin\Debug\net45\RzR.ResultMessage.dll</HintPath>
     </Reference>
-    <Reference Include="CodeSource">
-      <HintPath>..\..\MSignHelperDotNet\bin\Debug\net45\CodeSource.dll</HintPath>
-    </Reference>
-    <Reference Include="DomainCommonExtensions">
-      <HintPath>..\..\MSignHelperDotNet\bin\Debug\net45\DomainCommonExtensions.dll</HintPath>
+    <Reference Include="RzR.Extensions.Domain">
+      <HintPath>..\..\MSignHelperDotNet\bin\Debug\net45\RzR.Extensions.Domain.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
@@ -58,8 +55,8 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="EntityMaxLengthTrim">
-      <HintPath>..\..\MSignHelperDotNet\bin\Debug\net45\EntityMaxLengthTrim.dll</HintPath>
+    <Reference Include="RzR.Extensions.EntityLength">
+      <HintPath>..\..\MSignHelperDotNet\bin\Debug\net45\RzR.Extensions.EntityLength.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=3.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.3.6.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>

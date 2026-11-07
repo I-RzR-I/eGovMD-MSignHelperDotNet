@@ -19,7 +19,7 @@
 using System;
 using System.Net;
 using System.Text.RegularExpressions;
-using DomainCommonExtensions.DataTypeExtensions;
+using RzR.Extensions.Domain.Text;
 
 #endregion
 

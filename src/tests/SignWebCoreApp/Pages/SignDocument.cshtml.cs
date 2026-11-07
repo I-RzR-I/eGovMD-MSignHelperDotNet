@@ -18,8 +18,8 @@
 
 using System;
 using System.Collections.Generic;
-using AggregatedGenericResultMessage.Abstractions;
-using DomainCommonExtensions.DataTypeExtensions;
+using RzR.ResultMessage.Abstractions;
+using RzR.Extensions.Domain.Text;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MSignHelperDotNet.Abstractions;

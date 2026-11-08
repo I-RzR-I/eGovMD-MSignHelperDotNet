@@ -20,8 +20,7 @@ using System;
 using System.ComponentModel;
 using System.Globalization;
 using System.Security.Cryptography.X509Certificates;
-using DomainCommonExtensions.CommonExtensions;
-using DomainCommonExtensions.DataTypeExtensions;
+using RzR.Extensions.Domain.Primitives;
 
 #endregion
 

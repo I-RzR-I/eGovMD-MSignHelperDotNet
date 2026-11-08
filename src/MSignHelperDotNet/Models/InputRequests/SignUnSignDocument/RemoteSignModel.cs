@@ -165,5 +165,17 @@ namespace MSignHelperDotNet.Models.InputRequests.SignUnSignDocument
         ///     The custom relay state.
         /// </value>
         public string CustomRelayState { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the IP address of the end user who signs the document/s.
+        /// </summary>
+        /// <remarks>
+        ///     This parameter is not required. The library does not detect the address; it is stored as
+        ///     <c>CreatedIp</c> of every returned sign request, and is null when the caller does not know it.
+        /// </remarks>
+        /// <value>
+        ///     The client IP address.
+        /// </value>
+        public string ClientIp { get; set; }
     }
 }

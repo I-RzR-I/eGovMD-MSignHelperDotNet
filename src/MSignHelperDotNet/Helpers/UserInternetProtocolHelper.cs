@@ -19,7 +19,7 @@
 using System;
 using System.Net;
 using System.Text.RegularExpressions;
-using DomainCommonExtensions.DataTypeExtensions;
+using RzR.Extensions.Domain.Text;
 
 #endregion
 
@@ -36,6 +36,7 @@ namespace MSignHelperDotNet.Helpers
         /// </summary>
         /// <returns></returns>
         /// <remarks></remarks>
+        [Obsolete("No longer called by the library. It returns the server's public IP, not the end user's IP. Set RemoteSignModel.ClientIp instead.", false)]
         public static string GetUserIp()
         {
             var userIp = string.Empty;

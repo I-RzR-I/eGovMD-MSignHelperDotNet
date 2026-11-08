@@ -19,9 +19,9 @@
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using EntityMaxLengthTrim.Attributes;
-using EntityMaxLengthTrim.Enums;
-using EntityMaxLengthTrim.Interceptors;
+using RzR.Extensions.EntityLength.Attributes;
+using RzR.Extensions.EntityLength.Enums;
+using RzR.Extensions.EntityLength.Interceptors;
 using MSignHelperDotNet.Constants;
 using MSignHelperDotNet.Enums;
 
@@ -152,7 +152,7 @@ namespace MSignHelperDotNet.Entities
         public DateTime? SignedOn { get; set; }
 
         /// <summary>
-        ///     User IP created record
+        ///     User IP created record, as supplied by the caller in <c>RemoteSignModel.ClientIp</c> (null when not supplied)
         /// </summary>
         [MaxAllowedLength(DbLengthConstrains.SignRequests.CreatedIp.MaxLength)]
         public string CreatedIp
@@ -167,7 +167,7 @@ namespace MSignHelperDotNet.Entities
         }
 
         /// <summary>
-        ///     User IP modified record 
+        ///     User IP modified record. Owned by the caller: the library does not set it.
         /// </summary>
         [MaxAllowedLength(DbLengthConstrains.SignRequests.ModifiedIp.MaxLength)]
         public string ModifiedIp

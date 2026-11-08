@@ -5,10 +5,7 @@
 
 One important reason for developing this repository is to quickly implement the governmental signing service provided by [e-governance agency](https://egov.md/), named `MSign`, available in the Republic of Moldova.<br/>
 
-[![MSign service](assets/msign.png)](https://msign.gov.md)
-<br/>
-
-Proceed to the service portal where you can read more about them by clicking [here](https://msign.gov.md).
+Proceed to the service portal where you can read more about them by on [<a href="https://mpass.gov.md"><img src="assets/msign.png" width="100px"/></a>](https://msign.gov.md).
 
 The current repository appears as a result of numerous implementations in projects from scratch, losing a lot of time and desire for a more easy way of implementation in new projects.
 This repository is a wrapper for the currently available service. Using a few configuration parameters from the application settings file `appsettings.json`, `app.config`, or `web.config` you may implement them very easily into your own application.<br/>

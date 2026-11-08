@@ -18,9 +18,9 @@
 
 using System;
 using System.Linq;
-using DomainCommonExtensions.ArraysExtensions;
-using DomainCommonExtensions.CommonExtensions;
-using DomainCommonExtensions.DataTypeExtensions;
+using RzR.Extensions.Domain.Collections;
+using RzR.Extensions.Domain.Primitives;
+using RzR.Extensions.Domain.Text;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MSignHelperDotNet.Abstractions;
 using MSignHelperDotNet.Entities;

@@ -6,7 +6,7 @@ In curret wrapper are available a few methods like:
 * `SignUnSignDocument`, `SignUnSignDocumentAsync` -> Build a request for the sign or unsign, a POST request to signing service and return result available to save into your storage (or create a mapping to your local storage data), results where to redirect user for completing signing data/documents;
 * `CheckDocumentSignStatus`, `CheckDocumentSignStatusAsync` -> Verify/check the status for signed documents by `RequestId` obtained from the previous method;
 * `VerifyDocumentSignature`, `VerifyDocumentSignatureAsync` -> Verify the signature of persons who signed documents;
-* `Ping` -> Check if the signing service is alive and if you can use it,  available from `MSignClientInternal.Instance.Ping()`.
+* `Ping` -> Checks the state of the local signing client (`MSignClientInternal`), with no network round-trip: it reports the service as available unless the client is Faulted or Closed. In that case it returns a failed result (`IsSuccess = false`, `Response.IsSuccess = false`) and a Faulted client is aborted. Available from `MSignClientInternal.Instance.Ping()`.
 
 For the <b><i>first three methods</i></b>, please check the documentation obtained from the responsible authorities where you can find all the smallest details necessary for the implementation and understanding of the working flow.
 <br/>
@@ -154,11 +154,12 @@ From the box, after sending the signing request as result, you will receive a pr
 
 In dependence on what you need, you can extend with your own properties, then create a map for your DB entity. 
 
-For returned object model is set length restriction for some string properties like: '*SignDocId*', '*SignDocNumber*', '*RequestId*', '*CorrelationId*', '*CreatedIp*', '*ModifiedIp*' and in the case when the length is exceeded, the value will be truncated(using `EntityMaxLengthTrim` and `INotifyPropertyChanged`) at the maximum allowed length (set in the '*MSignHelperDotNet.Constants.SignRequests*').
+For returned object model is set length restriction for some string properties like: '*SignDocId*', '*SignDocNumber*', '*RequestId*', '*CorrelationId*', '*CreatedIp*', '*ModifiedIp*' and in the case when the length is exceeded, the value will be truncated(using `RzR.Extensions.EntityLength` and `INotifyPropertyChanged`) at the maximum allowed length (set in the '*MSignHelperDotNet.Constants.SignRequests*').
 
 In addition at clean implementation in the input parameters of sign requests is added:
 * `ReceiveResponseFrom` - allow generating how the user will be redirected to the signing site with the allowed value `GET` and `POST`;
 * `PhoneNumber` - used for autocomplete input dedicated to users who use mobile signature.
+* `ClientIp` - optional, the IP address of the end user who signs; the library does not detect it. It is stored as `CreatedIp` of the returned sign requests and is `null` when you do not supply it. `ModifiedIp` is not set by the library, `CheckDocumentSignStatus` leaves it unchanged, so set it yourself if you need it. `UserInternetProtocolHelper.GetUserIp()` is obsolete and no longer called.
 
 For a more clear understanding of the implementation and using this service, please check the projects `SignWebNet45App` and `SignWebCoreApp` from the current solution. There is presented only one method (a simple method with store temp data, the signing requests into database `SQLite`) of implementation, but you can extend and use it in your own way.
 

@@ -1,3 +1,8 @@
+### **v2.0.0.4865** [[RzR](mailto:108324929+I-RzR-I@users.noreply.github.com)] 08-11-2026
+* [671f8bd] (RzR) -> Auto commit uncommited files
+* [2095bd1] (RzR) -> Add code execution improvements.
+* [ace8cad] (RzR) -> Migrate reference package versions.
+
 ### **v1.2.3.186** [[RzR](mailto:108324929+I-RzR-I@users.noreply.github.com)] 25-02-2026
 * [d5b86ec] (RzR) -> Auto commit uncommited files
 * [6fc971d] (RzR) -> Upgrade reference package version (fixed version)

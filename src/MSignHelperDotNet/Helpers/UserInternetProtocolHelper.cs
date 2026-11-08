@@ -36,6 +36,7 @@ namespace MSignHelperDotNet.Helpers
         /// </summary>
         /// <returns></returns>
         /// <remarks></remarks>
+        [Obsolete("No longer called by the library. It returns the server's public IP, not the end user's IP. Set RemoteSignModel.ClientIp instead.", false)]
         public static string GetUserIp()
         {
             var userIp = string.Empty;

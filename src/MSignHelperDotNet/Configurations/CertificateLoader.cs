@@ -27,6 +27,7 @@ using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using RzR.Extensions.Domain.Primitives;
 using RzR.Extensions.Domain.Text;
+
 // ReSharper disable IdentifierTypo
 // ReSharper disable ExpressionIsAlwaysNull
 // ReSharper disable JoinDeclarationAndInitializer
@@ -47,7 +48,7 @@ namespace MSignHelperDotNet.Configurations
         /// <remarks></remarks>
         public static X509Certificate2 Public(string certificatePath)
         {
-            if (string.IsNullOrWhiteSpace(certificatePath))
+            if (certificatePath.IsMissing())
                 return null;
 
             var certificate = LoadPublicCertificateFromChain(certificatePath);
@@ -72,11 +73,11 @@ namespace MSignHelperDotNet.Configurations
         public static X509Certificate2 Private(string certificatePath, string certificatePassword = null)
         {
             X509Certificate2 result;
-            if (string.IsNullOrWhiteSpace(certificatePath))
+            if (certificatePath.IsMissing())
                 return null;
 
 #if NETSTANDARD2_1_OR_GREATER || NET
-			if (File.Exists(certificatePath) && !string.IsNullOrWhiteSpace(certificatePassword))
+			if (File.Exists(certificatePath).IsTrue() && certificatePassword.IsPresent())
 			{
 				var x509Certificate2Collection = new X509Certificate2Collection();
 				x509Certificate2Collection.Import(certificatePath, certificatePassword, X509KeyStorageFlags.DefaultKeySet);
@@ -90,7 +91,8 @@ namespace MSignHelperDotNet.Configurations
 				return x509Certificate2Collection2[index];
 			}
 
-            if (!Directory.Exists(certificatePath)) return null;
+            if (Directory.Exists(certificatePath).IsFalse()) 
+                return null;
 
             var certificateFile = Path.Combine(certificatePath, "tls.crt");
 			var path = Path.Combine(certificatePath, "tls.key");
@@ -98,7 +100,7 @@ namespace MSignHelperDotNet.Configurations
 			if (!File.Exists(path)) return null;
 
             using var x509Certificate = CertificateLoader.LoadPublicCertificateFromChain(certificateFile);
-            if (x509Certificate == null)
+            if (x509Certificate.IsNull())
             {
                 result = null;
             }
@@ -130,6 +132,7 @@ namespace MSignHelperDotNet.Configurations
 
                         return new X509Certificate2(x509Certificate.CopyWithPrivateKey(rsa).Export(X509ContentType.Pfx));
                     }
+
                     if (array[0].Contains("DSA PRIVATE KEY", StringComparison.OrdinalIgnoreCase))
                     {
                         using var dsa = DSA.Create();
@@ -156,7 +159,7 @@ namespace MSignHelperDotNet.Configurations
         /// <remarks></remarks>
         private static X509Certificate2 LoadPublicCertificateFromChain(string certificateFile)
         {
-            if (!File.Exists(certificateFile))
+            if (File.Exists(certificateFile).IsFalse())
                 return null;
 
             var x509Certificate2Collection = CertificateLoader.LoadPublicCertificatesChain(certificateFile);
@@ -191,7 +194,7 @@ namespace MSignHelperDotNet.Configurations
                 }
                 else if (array[i].Contains("END CERTIFICATE", StringComparison.OrdinalIgnoreCase))
                 {
-                    x509Certificate2Collection.Add(new X509Certificate2(Convert.FromBase64String(string.Concat(array.SubArray(num, i - 1)))));
+                    x509Certificate2Collection.Add(new X509Certificate2(Convert.FromBase64String(string.Concat(array.SubArray(num, i - num)))));
                     num = -1;
                 }
             }

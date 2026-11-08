@@ -47,22 +47,16 @@ namespace MSignHelperDotNet
         /// <remarks></remarks>
         public static IServiceCollection AddMSingService(this IServiceCollection services, IConfiguration configuration)
         {
-            var mSignOption = configuration.GetSection(nameof(RemoteMSignOptions)).Get<RemoteMSignOptions>();
+            var mSignSection = configuration.GetSection(nameof(RemoteMSignOptions));
+            var mSignOption = mSignSection.Get<RemoteMSignOptions>();
             services.AddOptions<RemoteMSignOptions>();
 
             services.Configure<RemoteMSignOptions>(options =>
             {
-                options.RemoteServiceClientAddress = mSignOption.RemoteServiceClientAddress;
-                options.ServiceCertificatePath = mSignOption.ServiceCertificatePath;
-                options.ServiceCertificatePassword = mSignOption.ServiceCertificatePassword;
-                options.RemoteRedirectAddress = mSignOption.RemoteRedirectAddress;
-            });
-            services.PostConfigure<RemoteMSignOptions>(options =>
-            {
-                options.RemoteServiceClientAddress = mSignOption.RemoteServiceClientAddress;
-                options.ServiceCertificatePath = mSignOption.ServiceCertificatePath;
-                options.ServiceCertificatePassword = mSignOption.ServiceCertificatePassword;
-                options.RemoteRedirectAddress = mSignOption.RemoteRedirectAddress;
+                options.RemoteServiceClientAddress = mSignSection[nameof(RemoteMSignOptions.RemoteServiceClientAddress)];
+                options.ServiceCertificatePath = mSignSection[nameof(RemoteMSignOptions.ServiceCertificatePath)];
+                options.ServiceCertificatePassword = mSignSection[nameof(RemoteMSignOptions.ServiceCertificatePassword)];
+                options.RemoteRedirectAddress = mSignSection[nameof(RemoteMSignOptions.RemoteRedirectAddress)];
             });
             services.AddSingleton(mSignOption);
 

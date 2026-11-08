@@ -24,6 +24,7 @@ using System.ServiceModel;
 using RzR.Extensions.Domain.Primitives;
 using Microsoft.Extensions.Options;
 using MSignHelperDotNet.Models;
+using RzR.Extensions.Domain.Text;
 
 // ReSharper disable CollectionNeverUpdated.Local
 
@@ -39,14 +40,17 @@ namespace MSignHelperDotNet.Configurations.Options
         /// <inheritdoc />
         public void PostConfigure(string name, RemoteMSignOptions mSignOptions)
         {
-            if (string.IsNullOrWhiteSpace(mSignOptions.RemoteServiceClientAddress))
+            if (mSignOptions.RemoteServiceClientAddress.IsMissing())
                 throw new ArgumentException("Please provide a RemoteServiceClientAddress");
 
-            if (string.IsNullOrWhiteSpace(mSignOptions.ServiceCertificatePath))
+            if (mSignOptions.ServiceCertificatePath.IsMissing())
                 throw new ArgumentException("Please provide a Certificate Path");
 
-            if (string.IsNullOrWhiteSpace(mSignOptions.ServiceCertificatePassword))
+            if (mSignOptions.ServiceCertificatePassword.IsMissing())
                 throw new ArgumentException("Please provide a Certificate Password");
+
+            if (mSignOptions.RemoteRedirectAddress.IsMissing())
+                throw new ArgumentException("Please provide a RemoteRedirectAddress");
 
             var certificate = new X509Certificate2Collection(CertificateLoader.Private(
                 mSignOptions.ServiceCertificatePath,

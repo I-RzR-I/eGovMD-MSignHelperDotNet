@@ -98,18 +98,28 @@ namespace MSignHelperDotNet.Configurations.Clients
         ///     Ping MSign service
         /// </summary>
         /// <returns></returns>
-        /// <remarks></remarks>
+        /// <remarks>
+        ///     Checks only the state of this client and sends no request to the service. A Faulted or Closed client is
+        ///     reported as not available (the outer and the response flags are false). A Faulted client is aborted.
+        ///     A Closed client is not opened.
+        /// </remarks>
         public Result<PingResponse> Ping()
         {
-            var client = Instance;
             var stopwatch = new Stopwatch();
             stopwatch.Start();
 
             try
             {
-                if (client.ChannelFactory.State != CommunicationState.Opened &&
-                    client.ChannelFactory.State == CommunicationState.Closed)
-                { client.Open(); }
+                var state = State;
+                if (state == CommunicationState.Faulted || state == CommunicationState.Closed)
+                {
+                    if (state == CommunicationState.Faulted)
+                        Abort();
+
+                    stopwatch.Stop();
+
+                    return CreateFailedPing("Server is not available.", stopwatch);
+                }
 
                 stopwatch.Stop();
 
@@ -122,20 +132,28 @@ namespace MSignHelperDotNet.Configurations.Clients
             }
             catch (Exception e)
             {
-                var result = new Result<PingResponse>()
-                {
-                    IsSuccess = true
-                };
-                result.AddException(e);
-                result.SetResult(new PingResponse
-                {
-                    Message = "Communication problem: " + e.Message,
-                    Time = $"{stopwatch.Elapsed}",
-                    IsSuccess = false
-                });
-
-                return result;
+                return CreateFailedPing("Communication problem: " + e.Message, stopwatch, e);
             }
+        }
+
+        private static Result<PingResponse> CreateFailedPing(string message, Stopwatch stopwatch,
+            Exception exception = null)
+        {
+            var result = new Result<PingResponse>()
+            {
+                IsSuccess = false
+            };
+            if (exception.IsNotNull())
+                result.AddException(exception);
+
+            result.SetResult(new PingResponse
+            {
+                Message = message,
+                Time = $"{stopwatch.Elapsed}",
+                IsSuccess = false
+            });
+
+            return result;
         }
     }
 }

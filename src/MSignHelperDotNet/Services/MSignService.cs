@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using RzR.ResultMessage;
 using RzR.ResultMessage.Abstractions;
@@ -177,15 +178,19 @@ namespace MSignHelperDotNet.Services
                         .Failure("Please provide data to be checked");
 
                 var signRequestIds = registeredSignRequests.Select(x => x.RequestId).Distinct().ToList();
-                if (!signRequestIds.Any() || signRequestIds.FirstOrDefault().IsNull())
+                if (!signRequestIds.Any() || signRequestIds.Count > 1 || signRequestIds.FirstOrDefault().IsNull())
                     return Result<CheckDocumentSignStatusResultModel<TUserId, TRecordId>>
                         .Failure("Please provide data from the same sign request");
 
-                var ping = MSignClientInternal.Instance.Ping();
-                if (!ping.Response.IsSuccess)
+                var client = _mSign as MSignClientInternal;
+                if (client.IsNotNull())
                 {
-                    return Result<CheckDocumentSignStatusResultModel<TUserId, TRecordId>>
-                        .Failure(ping.Response.Message);
+                    var ping = client!.Ping();
+                    if (!ping.Response.IsSuccess)
+                    {
+                        return Result<CheckDocumentSignStatusResultModel<TUserId, TRecordId>>
+                            .Failure(ping.Response.Message);
+                    }
                 }
 
                 var signResponse = isAsync.Equals(false)
@@ -201,26 +206,43 @@ namespace MSignHelperDotNet.Services
                     return Result<CheckDocumentSignStatusResultModel<TUserId, TRecordId>>
                         .Failure("Provided list of documents and list of documents received from signing service are not equal!");
 
+                var correlationIds = new HashSet<string>();
+                var certificates = new List<string>(registeredSignRequests.Count);
+                var signatures = new List<string>(registeredSignRequests.Count);
                 foreach (var sr in registeredSignRequests)
                 {
                     if (sr.CorrelationId.IsNullOrEmpty())
                         return Result<CheckDocumentSignStatusResultModel<TUserId, TRecordId>>
                             .Failure($"Provides record don't contains {nameof(sr.CorrelationId)}");
 
+                    if (!correlationIds.Add(sr.CorrelationId))
+                        return Result<CheckDocumentSignStatusResultModel<TUserId, TRecordId>>
+                            .Failure($"Provided list contains duplicate {nameof(sr.CorrelationId)}('{sr.CorrelationId}').");
+
                     var currentDoc = resultListOfSignedDocs.FirstOrDefault(x => x.CorrelationID == sr.CorrelationId);
                     if (currentDoc.IsNull())
                         return Result<CheckDocumentSignStatusResultModel<TUserId, TRecordId>>
                             .Failure($"The document with specified correlation id('{sr.CorrelationId}') not found.");
 
+                    var isSuccess = signResponse.Status == SignStatus.Success;
+                    certificates.Add(isSuccess ? currentDoc!.Certificate.ToBase64String() : null);
+                    signatures.Add(isSuccess ? currentDoc.Signature.ToBase64String() : null);
+                }
+
+                for (var i = 0; i < registeredSignRequests.Count; i++)
+                {
+                    var sr = registeredSignRequests[i];
+
                     sr.ModifiedOn = DateTime.Now;
-                    sr.ModifiedIp = UserInternetProtocolHelper.GetUserIp();
                     sr.SignStatusId = signResponse.Status;
 
-                    if (signResponse.Status != SignStatus.Success) continue;
+                    if (signResponse.Status != SignStatus.Success) 
+                        continue;
 
-                    sr.SignedOn = DateTime.Now;
-                    sr.Certificate = currentDoc?.Certificate.ToBase64String();
-                    sr.Signature = currentDoc?.Signature.ToBase64String();
+                    sr.SignedOn ??= DateTime.Now;
+
+                    sr.Certificate = certificates[i];
+                    sr.Signature = signatures[i];
                 }
 
                 return Result<CheckDocumentSignStatusResultModel<TUserId, TRecordId>>
@@ -286,11 +308,20 @@ namespace MSignHelperDotNet.Services
                     return Result<SignUnSignDocumentResultModel<TUserId, TRecordId>>
                         .Failure(generateSignRequest.GetFirstMessage());
 
-                var ping = MSignClientInternal.Instance.Ping();
-                if (!ping.Response.IsSuccess)
+                if (!appLanguage.IsNullOrEmpty())
+                    if (!RemoteMSignConstants.AvailableCultures.Contains(appLanguage.ToLower()))
+                        return Result<SignUnSignDocumentResultModel<TUserId, TRecordId>>
+                            .Failure("Please provide current application language");
+
+                var client = _mSign as MSignClientInternal;
+                if (client.IsNotNull())
                 {
-                    return Result<SignUnSignDocumentResultModel<TUserId, TRecordId>>
-                        .Failure(ping.Response.Message);
+                    var ping = client!.Ping();
+                    if (!ping.Response.IsSuccess)
+                    {
+                        return Result<SignUnSignDocumentResultModel<TUserId, TRecordId>>
+                            .Failure(ping.Response.Message);
+                    }
                 }
 
                 var requestId = isAsync.Equals(false)
@@ -320,7 +351,7 @@ namespace MSignHelperDotNet.Services
                         CorrelationId = sr.CorrelationId,
                         RequestId = requestId,
                         CreateOn = DateTime.Now,
-                        CreatedIp = UserInternetProtocolHelper.GetUserIp(),
+                        CreatedIp = signRequest.ClientIp,
                         ProcedureTypeId = signRequest.SignProcedure,
                         SignStatusId = SignStatus.Pending,
                         SignDocId = sr.SignDocId,
@@ -374,11 +405,19 @@ namespace MSignHelperDotNet.Services
                     return Result<IList<VerifyDocumentSignatureResultModel>>
                         .Failure("Please provide content for validation");
 
-                var ping = MSignClientInternal.Instance.Ping();
-                if (!ping.Response.IsSuccess)
-                {
+                if (!Enum.IsDefined(typeof(ContentType), validationRequest.ContentType))
                     return Result<IList<VerifyDocumentSignatureResultModel>>
-                        .Failure(ping.Response.Message);
+                        .Failure("Please provide a valid content type");
+
+                var client = _mSign as MSignClientInternal;
+                if (client.IsNotNull())
+                {
+                    var ping = client!.Ping();
+                    if (!ping.Response.IsSuccess)
+                    {
+                        return Result<IList<VerifyDocumentSignatureResultModel>>
+                            .Failure(ping.Response.Message);
+                    }
                 }
 
                 var validationResponse = isAsync.Equals(false)
@@ -457,7 +496,8 @@ namespace MSignHelperDotNet.Services
                 if (data.SignerId.IsNullOrEmpty() || data.DelegatorId.IsNullOrEmpty())
                     return Result.Failure($"Please provide {nameof(data.SignerId)} and {nameof(data.DelegatorId)}");
 
-            if (data.SignProcedure == SignProcedureType.Undefined)
+            if (data.SignProcedure == SignProcedureType.Undefined ||
+                !Enum.IsDefined(typeof(SignProcedureType), data.SignProcedure))
                 return Result.Failure("Please provide a valid sign procedure");
 
             if (data.ReturnUrl.IsNullOrEmpty())
@@ -474,6 +514,9 @@ namespace MSignHelperDotNet.Services
                 if (c.SignDocId.IsNullOrEmpty() || c.SignDocNumber.IsNullOrEmpty())
                     return Result
                         .Failure($"Please provide {nameof(c.SignDocId)} and {nameof(c.SignDocNumber)}");
+
+            if (!Enum.IsDefined(typeof(ContentType), data.ContentType))
+                return Result.Failure("Please provide a valid content type");
 
             return Result.Success();
         }
@@ -495,28 +538,37 @@ namespace MSignHelperDotNet.Services
             {
                 if (request.ReceiveResponseFrom == ReceiveResponseType.GET)
                 {
+                    var escapedReturnUrl = Uri.EscapeDataString(request.ReturnUrl.IfNullThenEmpty());
+                    var escapedRequestId = Uri.EscapeDataString(request.RequestId.IfNullThenEmpty());
+                    var cleanRedirectUrl = $"{_mSignOptions.RemoteRedirectAddress}/{escapedRequestId}";
                     var redirectUrl = request.SetRequestIdAsUrlPathParam.IsTrue()
-                        ? $"{_mSignOptions.RemoteRedirectAddress}/{request.RequestId}?ReturnUrl={request.ReturnUrl}/{request.RequestId}"
-                        : $"{_mSignOptions.RemoteRedirectAddress}/{request.RequestId}?ReturnUrl={request.ReturnUrl}?id={request.RequestId}";
+                        ? $"{cleanRedirectUrl}?ReturnUrl={escapedReturnUrl}/{escapedRequestId}"
+                        : $"{cleanRedirectUrl}?ReturnUrl={escapedReturnUrl}?id={escapedRequestId}";
 
                     return Result<BuildSignRedirectPageResultModel>
                         .Success(new BuildSignRedirectPageResultModel
                         {
                             RedirectUrl = redirectUrl,
-                            CleanRedirectUrl = $"{_mSignOptions.RemoteRedirectAddress}/{request.RequestId}"
+                            CleanRedirectUrl = cleanRedirectUrl
                         });
                 }
 
 
-                var htmlPage = RemoteMSignConstants.MSignHtmlRedirect;
                 var postFormUrl = $"{_mSignOptions.RemoteRedirectAddress}/{request.RequestId}";
+                var formValues = new Dictionary<string, string>
+                {
+                    ["PostFormUrl"] = postFormUrl,
+                    ["ReturnUrl"] = request.ReturnUrl,
+                    ["MSISDN"] = request.PhoneNumber,
+                    ["RelayState"] = request.CustomRelayState.IfNullOrWhiteSpace(request.ReturnUrl.Base64Encode()),
+                    ["lang"] = appLanguage?.ToLower(),
+                    ["Instrument"] = request.Instrument.IfNullThenEmpty()
+                };
 
-                htmlPage = htmlPage.Replace("{#PostFormUrl#}", postFormUrl);
-                htmlPage = htmlPage.Replace("{#ReturnUrl#}", request.ReturnUrl);
-                htmlPage = htmlPage.Replace("{#MSISDN#}", request.PhoneNumber);
-                htmlPage = htmlPage.Replace("{#RelayState#}", request.CustomRelayState.IfNullOrWhiteSpace(request.ReturnUrl.Base64Encode()));
-                htmlPage = htmlPage.Replace("{#lang#}", appLanguage?.ToLower());
-                htmlPage = htmlPage.Replace("{#Instrument#}", request.Instrument.IfNullThenEmpty());
+                var htmlPage = Regex.Replace(RemoteMSignConstants.MSignHtmlRedirect, @"\{#(\w+)#\}",
+                    m => formValues.TryGetValue(m.Groups[1].Value, out var value)
+                        ? System.Net.WebUtility.HtmlEncode(value) ?? string.Empty
+                        : m.Value);
 
                 return Result<BuildSignRedirectPageResultModel>
                     .Success(new BuildSignRedirectPageResultModel
